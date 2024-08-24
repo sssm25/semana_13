@@ -57,33 +57,43 @@ def get_data():
 if __name__ == '__main__':
     app.run(debug=True)
 
-# Análisis y Visualización
+---
+title: "Análisis de Datos de Países"
+author: "Sisney"
+format: 
+ pdf:
+   code-fold: true
+   toc: true
+   toc-depth: 2
+   number-sections: true
+   fig-cap: true
+jupyter: python3
+---
+# Gráfico Categórico
+```{python}
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Obtener datos de la API
-response = requests.get('http://127.0.0.1:5000/api/datos?nombre=Argentina&min_area=100000')
-data = response.json()
-df = pd.DataFrame(data)
-
-# Convertir a tipos numéricos nuevamente por seguridad
-df['Población'] = pd.to_numeric(df['Población'], errors='coerce')
-df['Área (km²)'] = pd.to_numeric(df['Área (km²)'], errors='coerce')
-
-# Gráfico de distribución
-plt.figure(figsize=(10, 6))
-sns.histplot(df['Población'], bins=10, kde=True)
-plt.title('Distribución de Población')
-plt.savefig('grafico_distribucion.png')
-
-# Gráfico categórico
+df = pd.read_csv('datos_scrapeados.csv')
+df.head()
+```
+```{python}
 plt.figure(figsize=(10, 6))
 sns.countplot(data=df, x='Área (km²)')
 plt.title('Número de Países por Área')
-plt.savefig('grafico_categorico.png')
-
-# Gráfico relacional
+plt.show()
+```
+```{python}
+#Grafico relaccional
 plt.figure(figsize=(10, 6))
 sns.scatterplot(data=df, x='Población', y='Área (km²)')
 plt.title('Población vs Área')
-plt.savefig('grafico_relacional.png')
+plt.show()
+```
+```{python}
+#Grafico de distribucion
+plt.figure(figsize=(10, 6))
+sns.histplot(df['Población'], bins=10, kde=True)
+plt.title('Distribución de Población')
+plt.show()
+```
